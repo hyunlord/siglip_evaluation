@@ -60,6 +60,13 @@ def evaluation(
             "--data-count",
             help="data count for evaluation",
             rich_help_panel="data"
+        ),
+        data_column: str = Option(
+            'captions',
+            "-dcol",
+            "--data-column",
+            help="data column for evaluation",
+            rich_help_panel="data"
         )
 ):
     device = model_device
@@ -83,7 +90,7 @@ def evaluation(
     image_to_text_map = [list(range(i * 5, (i + 1) * 5)) for i in range(len(dataset))]
     text_to_image_map = [i for i in range(len(dataset)) for _ in range(5)]
 
-    all_captions = [caption for ex in dataset for caption in ex['captions'][:5]]
+    all_captions = [caption for ex in dataset for caption in ex[data_column][:5]]
     print(f" 데이터셋 캡션 개수: {len(all_captions)}")
 
     collate_with_processor = partial(image_collate_fn, processor=processor, device=device)
