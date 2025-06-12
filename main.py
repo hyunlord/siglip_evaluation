@@ -5,7 +5,7 @@ from datasets import load_dataset
 from torch.utils.data import DataLoader
 from transformers import AutoProcessor, AutoModel
 
-from app.util import image_collate_fn, make_text_features, make_image_features, calculate_recall
+from app.util import image_collate_fn, make_text_features, make_image_features, calculate_recall, set_seed
 
 cmd = Typer()
 
@@ -67,8 +67,18 @@ def evaluation(
             "--data-column",
             help="data column for evaluation",
             rich_help_panel="data"
+        ),
+        seed: int = Option(
+            42,
+            "-sd",
+            "--seed",
+            help="seed number",
+            rich_help_panel="data"
         )
 ):
+    set_seed(seed)
+    print(f"   - seed를 {seed}로 고정하였습니다.")
+
     device = model_device
     print(f"   - 디바이스 : {device}")
 
