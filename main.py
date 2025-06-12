@@ -18,7 +18,7 @@ def evaluation(
             help="path of model for evaluation", rich_help_panel="model"
         ),
         model_device: str = Option(
-            "cpu",
+            "cuda",
             "-md", "--device",
             help="select device", rich_help_panel="model"
         ),
