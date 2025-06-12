@@ -68,7 +68,7 @@ def calculate_recall(model, all_text_features, all_image_features, text_to_image
         all_text_features /= all_text_features.norm(p=2, dim=-1, keepdim=True)
 
         logits_per_text = torch.matmul(all_text_features, all_image_features.T)
-        logits_per_text = logits_per_text * model.module.logit_scale.exp() + model.module.logit_bias
+        logits_per_text = logits_per_text * model.logit_scale.exp() + model.logit_bias
         logits_per_image = logits_per_text.t()
         probs = torch.sigmoid(logits_per_image)
 

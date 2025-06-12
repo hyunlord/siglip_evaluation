@@ -1,7 +1,6 @@
 from typer import Option, Typer
 from functools import partial
 
-import torch
 from datasets import load_dataset
 from torch.utils.data import DataLoader
 from transformers import AutoProcessor, AutoModel
@@ -90,9 +89,6 @@ def evaluation(
     print(f"   - 모델 및 프로세서 로딩 완료")
     total_params = sum(p.numel() for p in model.parameters())
     print(f"   - 모델 전체 파라미터 수: {total_params:,}")
-    if torch.cuda.device_count() > 1:
-        print(f"   - {torch.cuda.device_count()}개의 GPU를 사용하여 DataParallel을 활성화합니다.")
-        model = torch.nn.DataParallel(model)
 
     if data_count:
         print(f"   - {data_path} || {data_type}:{data_count} 데이터 로딩 중")
