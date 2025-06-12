@@ -63,6 +63,7 @@ def evaluation(
         )
 ):
     device = model_device
+    print(f"   - 디바이스 : {device}")
 
     print(f"   - {model_path} || 모델 및 프로세서 로딩 중")
     processor = AutoProcessor.from_pretrained(model_path, trust_remote_code=True, use_fast=False)
