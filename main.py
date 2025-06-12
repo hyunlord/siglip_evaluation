@@ -115,7 +115,7 @@ def evaluation(
 
     all_text_features = make_text_features(model, processor, all_captions, text_batch_size, device)
     all_image_features = make_image_features(model, image_dataloader, device)
-    recall_at_1_i2t, recall_at_1_t2i = calculate_recall(model, all_text_features, all_image_features,
+    recall_at_1_i2t, recall_at_1_t2i = calculate_recall(model_path, model, all_text_features, all_image_features,
                                                         text_to_image_map, image_to_text_map)
 
     print("\n" + "=" * 150)

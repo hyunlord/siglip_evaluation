@@ -63,16 +63,20 @@ def make_image_features(model, image_dataloader, device):
     return all_image_features
 
 
-def calculate_recall(model, all_text_features, all_image_features, text_to_image_map, image_to_text_map):
+def calculate_recall(model_path, model, all_text_features, all_image_features, text_to_image_map, image_to_text_map):
     with torch.no_grad():
         all_image_features /= all_image_features.norm(p=2, dim=-1, keepdim=True)
         all_text_features /= all_text_features.norm(p=2, dim=-1, keepdim=True)
 
         logits_per_text = torch.matmul(all_text_features, all_image_features.T)
-        logits_per_text = logits_per_text * model.logit_scale.exp() + model.logit_bias
-        logits_per_image = logits_per_text.t()
-        probs = torch.sigmoid(logits_per_image)
-
+        if 'clip' in model_path:
+            logits_per_text = logits_per_text * model.logit_scale.exp()
+            logits_per_image = logits_per_text.t()
+            probs = torch.softmax(logits_per_image, dim=1)
+        else:
+            logits_per_text = logits_per_text * model.logit_scale.exp() + model.logit_bias
+            logits_per_image = logits_per_text.t()
+            probs = torch.sigmoid(logits_per_image)
         pred_i2t = probs.argmax(dim=1)
         correct_i2t = sum(p in it_map for p, it_map in zip(pred_i2t, image_to_text_map))
         recall_at_1_i2t = (correct_i2t / len(all_image_features)) * 100
