@@ -43,7 +43,7 @@ def evaluation(
             help="data type for evaluation", rich_help_panel="data"
         ),
         data_count: int = Option(
-            0,
+            5000,
             "-dc", "--data-count",
             help="data count for evaluation", rich_help_panel="data"
         )
