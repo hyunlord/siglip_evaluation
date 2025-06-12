@@ -26,6 +26,13 @@ def evaluation(
             help="select device",
             rich_help_panel="model"
         ),
+        gpu_num: int = Option(
+            0,
+            "-gn",
+            "--gpu-num",
+            help="gpu number for using",
+            rich_help_panel="model"
+        ),
         image_batch_size: int = Option(
             16,
             "-ibs",
@@ -79,7 +86,7 @@ def evaluation(
     set_seed(seed)
     print(f"   - seed를 {seed}로 고정하였습니다.")
 
-    device = model_device
+    device = f"{model_device}:{gpu_num}"
     print(f"   - 디바이스 : {device}")
 
     print(f"   - {model_path} || 모델 및 프로세서 로딩 중")
