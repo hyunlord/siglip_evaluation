@@ -101,14 +101,14 @@ def evaluation(
     recall_at_1_i2t, recall_at_1_t2i = calculate_recall(model, all_text_features, all_image_features,
                                                         text_to_image_map, image_to_text_map)
 
-    print("\n" + "=" * 50)
+    print("\n" + "=" * 150)
     print(f"   - Model Path : {model_path})")
     print(f"   - Data Path : {data_path}), Data Type : {data_type}, Data Count : f{data_count}")
     print(f"   - 최종 평가 결과")
-    print("=" * 50)
+    print("=" * 150)
     print(f"Image-to-Text Recall@1: {recall_at_1_i2t:.2f}%")
     print(f"Text-to-Image Recall@1: {recall_at_1_t2i:.2f}%")
-    print("=" * 50)
+    print("=" * 150)
 
 
 if __name__ == '__main__':
