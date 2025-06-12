@@ -39,6 +39,7 @@ def make_text_features(model, processor, texts, batch_size, device):
         text_inputs = processor(text=texts,
                                 padding="max_length",
                                 max_length=64,
+                                truncation=True,
                                 return_tensors="pt").to(device)
         text_features_list = []
         for i in tqdm(range(0, text_inputs.input_ids.shape[0], batch_size), desc="     텍스트 배치 처리"):
