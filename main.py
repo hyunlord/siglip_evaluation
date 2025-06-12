@@ -108,7 +108,7 @@ def evaluation(
     text_to_image_map = [i for i in range(len(dataset)) for _ in range(5)]
 
     all_captions = [caption for ex in dataset for caption in ex[data_column][:5]]
-    print(f" 데이터셋 캡션 개수: {len(all_captions)}")
+    print(f" 데이터셋 column : {data_column}, 데이터셋 캡션 개수: {len(all_captions)}")
 
     collate_with_processor = partial(image_collate_fn, processor=processor, device=device)
     image_dataloader = DataLoader(dataset, batch_size=image_batch_size, collate_fn=collate_with_processor, shuffle=False)
@@ -120,7 +120,7 @@ def evaluation(
 
     print("\n" + "=" * 150)
     print(f"   - Model Path : {model_path}")
-    print(f"   - Data Path : {data_path}), Data Type : {data_type}, Data Count : {len(dataset)}")
+    print(f"   - Data Path : {data_path}), Data Type : {data_type}, Data Count : {len(dataset)}, Data Column : {data_column}")
     print("\n" + "=" * 150)
     print(f"   - 최종 평가 결과")
     print("=" * 150)
