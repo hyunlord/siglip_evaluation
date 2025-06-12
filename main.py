@@ -14,38 +14,52 @@ cmd = Typer()
 def evaluation(
         model_path: str = Option(
             "google/siglip-base-patch16-224",
-            "-m", "--model",
-            help="path of model for evaluation", rich_help_panel="model"
+            "-m",
+            "--model",
+            help="path of model for evaluation",
+            rich_help_panel="model"
         ),
         model_device: str = Option(
             "cuda",
-            "-md", "--device",
-            help="select device", rich_help_panel="model"
+            "-md",
+            "--device",
+            help="select device",
+            rich_help_panel="model"
         ),
         image_batch_size: int = Option(
             16,
-            "-ibs", "--image-batch-size",
-            help="image batch size", rich_help_panel="model"
+            "-ibs",
+            "--image-batch-size",
+            help="image batch size",
+            rich_help_panel="model"
         ),
         text_batch_size: int = Option(
             256,
-            "-tbs", "--text-batch-size",
-            help="text batch size", rich_help_panel="model"
+            "-tbs",
+            "--text-batch-size",
+            help="text batch size",
+            rich_help_panel="model"
         ),
         data_path: str = Option(
-            "hyunlord/aihub_image_caption_enko_dataset",
-            "-d", "--data",
-            help="path of data for evaluation", rich_help_panel="data"
+            "hyunlord/aihub_image-caption_en-ko_karpathy-split",
+            "-d",
+            "--data",
+            help="path of data for evaluation",
+            rich_help_panel="data"
         ),
         data_type: str = Option(
             "test",
-            "-dt", "--data-type",
-            help="data type for evaluation", rich_help_panel="data"
+            "-dt",
+            "--data-type",
+            help="data type for evaluation",
+            rich_help_panel="data"
         ),
         data_count: int = Option(
-            5000,
-            "-dc", "--data-count",
-            help="data count for evaluation", rich_help_panel="data"
+            0,
+            "-dc",
+            "--data-count",
+            help="data count for evaluation",
+            rich_help_panel="data"
         )
 ):
     device = model_device
@@ -54,13 +68,17 @@ def evaluation(
     processor = AutoProcessor.from_pretrained(model_path, trust_remote_code=True, use_fast=False)
     model = AutoModel.from_pretrained(model_path, trust_remote_code=True).to(device)
     model.eval()
-    print(f"   - {model_path} || 모델 및 프로세서 로딩 완료")
+    print(f"   - 모델 및 프로세서 로딩 완료")
     total_params = sum(p.numel() for p in model.parameters())
     print(f"   - 모델 전체 파라미터 수: {total_params:,}")
 
-    print(f"   - {data_path} || {data_type}:{data_count} 데이터 로딩 중")
-    dataset = load_dataset(data_path, split=f"{data_type}[:{data_count}]")
-    print(f"   - {data_path} || {data_type}:{data_count} 데이터 로딩 완료")
+    if data_count:
+        print(f"   - {data_path} || {data_type}:{data_count} 데이터 로딩 중")
+        dataset = load_dataset(data_path, split=f"{data_type}[:{data_count}]")
+    else:
+        print(f"   - {data_path} || {data_type} 데이터 로딩 중")
+        dataset = load_dataset(data_path, split=f"{data_type}")
+    print(f"   - 데이터 로딩 완료")
     image_to_text_map = [list(range(i * 5, (i + 1) * 5)) for i in range(len(dataset))]
     text_to_image_map = [i for i in range(len(dataset)) for _ in range(5)]
 
