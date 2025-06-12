@@ -13,7 +13,7 @@ cmd = Typer()
 @cmd.command()
 def evaluation(
         model_path: str = Option(
-            "google/siglip-base-patch16-224"
+            "google/siglip-base-patch16-224",
             "-m", "--model",
             help="path of model for evaluation", rich_help_panel="model"
         ),
@@ -50,13 +50,17 @@ def evaluation(
 ):
     device = model_device
 
+    print(f"   - {model_path} || 모델 및 프로세서 로딩 중")
     processor = AutoProcessor.from_pretrained(model_path, trust_remote_code=True, use_fast=False)
     model = AutoModel.from_pretrained(model_path, trust_remote_code=True).to(device)
     model.eval()
+    print(f"   - {model_path} || 모델 및 프로세서 로딩 완료")
     total_params = sum(p.numel() for p in model.parameters())
-    print(f" 모델 전체 파라미터 수: {total_params:,}")
+    print(f"   - 모델 전체 파라미터 수: {total_params:,}")
 
+    print(f"   - {data_path} || {data_type}:{data_count} 데이터 로딩 중")
     dataset = load_dataset(data_path, split=f"{data_type}[:{data_count}]")
+    print(f"   - {data_path} || {data_type}:{data_count} 데이터 로딩 완료")
     image_to_text_map = [list(range(i * 5, (i + 1) * 5)) for i in range(len(dataset))]
     text_to_image_map = [i for i in range(len(dataset)) for _ in range(5)]
 
