@@ -103,7 +103,8 @@ def evaluation(
 
     print("\n" + "=" * 150)
     print(f"   - Model Path : {model_path})")
-    print(f"   - Data Path : {data_path}), Data Type : {data_type}, Data Count : f{data_count}")
+    print(f"   - Data Path : {data_path}), Data Type : {data_type}, Data Count : {len(dataset)}")
+    print("\n" + "=" * 150)
     print(f"   - 최종 평가 결과")
     print("=" * 150)
     print(f"Image-to-Text Recall@1: {recall_at_1_i2t:.2f}%")
