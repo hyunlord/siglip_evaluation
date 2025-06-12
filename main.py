@@ -7,7 +7,7 @@ from transformers import AutoProcessor, AutoModel
 
 from app.util import image_collate_fn, make_text_features, make_image_features, calculate_recall, set_seed
 
-cmd = Typer()
+cmd = Typer(pretty_exceptions_show_locals=False)
 
 
 @cmd.command()
