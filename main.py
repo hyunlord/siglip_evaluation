@@ -116,7 +116,7 @@ def evaluation(
                                                         text_to_image_map, image_to_text_map)
 
     print("\n" + "=" * 150)
-    print(f"   - Model Path : {model_path})")
+    print(f"   - Model Path : {model_path}")
     print(f"   - Data Path : {data_path}), Data Type : {data_type}, Data Count : {len(dataset)}")
     print("\n" + "=" * 150)
     print(f"   - 최종 평가 결과")
